@@ -1,2 +1,11 @@
-# zhiaiwan-cli
-只爱玩脚手架工具，主要包含前端技术栈，快速构建可用高拓展的项目脚手架
+# 只爱玩项目初始化脚手架
+
+## 项目初始化
+
+```bash
+# 安装只爱玩脚手架工具
+npm install -g zhiaiwan-cli
+
+zhiaiwan create <project-name>
+
+```

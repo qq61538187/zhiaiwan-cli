@@ -1,0 +1,64 @@
+{
+  "name": "zhiaiwan-cli",
+  "version": "1.0.0",
+  "private": false,
+  "description": "使用只爱玩脚手架工具快速创建项目模版",
+  "main": "./bin/zhiaiwan.js",
+  "bin": {
+    "zhiaiwan": "./bin/zhiaiwan.js"
+  },
+  "author": {
+    "name": "Robin Li",
+    "email": "61538187@qq.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/qq61538187/zhiaiwan-cli"
+  },
+  "bugs": {
+    "url": "https://github.com/qq61538187/zhiaiwan-cli/issues",
+    "email": "61538187@qq.com"
+  },
+  "keywords": [
+    "vue3",
+    "vite",
+    "TypeScript",
+    "tsx",
+    "pinia",
+    "只爱玩",
+    "脚手架",
+    "项目模版",
+    "cli",
+    "脚手架工具",
+    "zhiaiwan"
+  ],
+  "files": [
+    "bin",
+    "command",
+    "utils"
+  ],
+  "scripts": {
+    "zhiaiwan": "zhiaiwan"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "eslint": "^8.0.1",
+    "eslint-config-standard": "^17.0.0",
+    "eslint-plugin-import": "^2.25.2",
+    "eslint-plugin-n": "^15.0.0",
+    "eslint-plugin-promise": "^6.0.0"
+  },
+  "dependencies": {
+    "chalk": "4",
+    "commander": "^9.4.0",
+    "download-git-repo": "^3.0.2",
+    "handlebars": "^4.7.7",
+    "inquirer": "8",
+    "log-symbols": "4",
+    "ora": "5",
+    "shelljs": "^0.8.5"
+  },
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/"
+  }
+}

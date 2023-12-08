@@ -1,0 +1,12 @@
+# 忽略目录
+node_modules
+.gitignore
+.npmignore
+.vscode
+# 忽略文件
+.DS_Store
+yarn.lock
+package.lock.json
+# 忽略测试文件
+tests
+
