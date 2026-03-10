@@ -1,0 +1,65 @@
+{
+  "name": "@zhiaiwan/cli",
+  "version": "0.0.0",
+  "author": "Lixiaofei 61538187@qq.com",
+  "description": "CLI for creating zhiaiwan projects from official templates.",
+  "type": "module",
+  "bin": {
+    "zhiaiwan": "./dist/bin/zhiaiwan.js"
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "README.en.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "typecheck": "tsc --noEmit",
+    "test:run": "vitest run",
+    "test:coverage": "vitest run --coverage",
+    "lint": "biome check ./src ./tests ./bin",
+    "changeset:version": "changeset version",
+    "changeset:publish": "changeset publish",
+    "prepare": "husky"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/qq61538187/zhiaiwan-cli.git"
+  },
+  "bugs": {
+    "url": "https://github.com/qq61538187/zhiaiwan-cli/issues"
+  },
+  "homepage": "https://github.com/qq61538187/zhiaiwan-cli",
+  "keywords": [
+    "zhiaiwan",
+    "cli",
+    "template",
+    "scaffold"
+  ],
+  "license": "MIT",
+  "devDependencies": {
+    "@biomejs/biome": "^2.4.4",
+    "@changesets/cli": "^2.29.8",
+    "@commitlint/cli": "^20.4.2",
+    "@commitlint/config-conventional": "^20.4.2",
+    "@types/node": "^24.5.2",
+    "@vitest/coverage-v8": "^4.0.18",
+    "husky": "^9.1.7",
+    "lint-staged": "^16.2.7",
+    "typescript": "^5.9.3",
+    "vitest": "^4.0.18"
+  },
+  "lint-staged": {
+    "*.{ts,tsx,js,jsx,json}": [
+      "biome check --write --no-errors-on-unmatched"
+    ]
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "dependencies": {
+    "@inquirer/prompts": "^8.3.0",
+    "inquirer": "^13.3.0"
+  }
+}
