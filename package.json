@@ -1,6 +1,6 @@
 {
   "name": "@zhiaiwan/cli",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "author": "Lixiaofei 61538187@qq.com",
   "description": "CLI for creating zhiaiwan projects from official templates.",
   "type": "module",
