@@ -1,5 +1,11 @@
 # @zhiaiwan/cli
 
+## 2.0.0
+
+### Major Changes
+
+- 3b9ecb3: 新增 vsce-server 模板并支持显示名与端口替换定制
+
 ## 1.0.0
 
 ### Major Changes
