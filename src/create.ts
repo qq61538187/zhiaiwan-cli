@@ -7,8 +7,10 @@ import type { ProjectTemplate, TemplateAnswers } from './templates.js'
 import {
   findTemplateById,
   PROJECT_TEMPLATES,
+  toValidDisplayName,
   toValidPackageName,
   toValidProjectName,
+  toValidServerPort,
 } from './templates.js'
 
 async function pathExists(targetPath: string): Promise<boolean> {
@@ -91,6 +93,8 @@ export async function askTemplateQuestions(
   return {
     projectName: toValidProjectName(answers.projectName ?? ''),
     packageName: toValidPackageName(answers.packageName ?? ''),
+    displayName: answers.displayName ? toValidDisplayName(answers.displayName) : undefined,
+    serverPort: answers.serverPort ? toValidServerPort(answers.serverPort) : undefined,
   }
 }
 
