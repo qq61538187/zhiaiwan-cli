@@ -1,5 +1,11 @@
 # @zhiaiwan/cli
 
+## 2.0.1
+
+### Patch Changes
+
+- ad70e42: vsce-server 脚手架增加扩展段前缀询问，并全局替换 nodeServerExtension 以避免命令冲突
+
 ## 2.0.0
 
 ### Major Changes
