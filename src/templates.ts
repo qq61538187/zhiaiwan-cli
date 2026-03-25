@@ -6,6 +6,8 @@ export interface TemplateAnswers {
   packageName: string
   displayName?: string
   serverPort?: string
+  /** vsce-server：配置/命令段 ID 前缀，落地为 `${prefix}Extension` 以替换模板中的 nodeServerExtension */
+  extensionSectionPrefix?: string
 }
 
 export interface TemplateProcessorContext {
@@ -27,7 +29,7 @@ export interface ProjectTemplate {
 }
 
 export interface TemplateQuestion {
-  key: 'projectName' | 'packageName' | 'displayName' | 'serverPort'
+  key: 'projectName' | 'packageName' | 'displayName' | 'serverPort' | 'extensionSectionPrefix'
   label: string
   required: boolean
   validate?: (value: string, answers: Partial<TemplateAnswers>) => true | string
@@ -74,6 +76,18 @@ export function toValidServerPort(input: string): string {
   return value
 }
 
+/** 与 VS Code contributes.configuration / commands 段名常见约束对齐，避免生成非法键 */
+export function toValidExtensionSectionPrefix(input: string): string {
+  const value = input.trim()
+  if (!value) {
+    throw new Error('扩展段 ID 前缀不能为空。')
+  }
+  if (!/^[a-zA-Z][a-zA-Z0-9]*$/.test(value)) {
+    throw new Error('扩展段 ID 前缀需以字母开头，仅含字母与数字（示例: acme、myTeam1）。')
+  }
+  return value
+}
+
 async function replaceTextInProject(
   targetDir: string,
   fromText: string,
@@ -103,6 +117,13 @@ export const PROJECT_TEMPLATES: ProjectTemplate[] = [
     repo: 'https://github.com/qq61538187/zhiaiwan-template-vsce-server.git',
     description: 'VSCode/Cursor extension with embedded Node server skeleton',
     processor: async (ctx) => {
+      const sectionPrefix = ctx.answers.extensionSectionPrefix
+      if (!sectionPrefix) {
+        throw new Error('缺少扩展段 ID 前缀，无法生成唯一命令/配置键。')
+      }
+      const extensionSectionId = `${sectionPrefix}Extension`
+      await replaceTextInProject(ctx.targetDir, 'nodeServerExtension', extensionSectionId)
+
       const packageJsonPath = path.join(ctx.targetDir, 'package.json')
       const raw = await readFile(packageJsonPath, 'utf-8')
       const pkg = JSON.parse(raw) as {
@@ -114,11 +135,11 @@ export const PROJECT_TEMPLATES: ProjectTemplate[] = [
           }
         }
       }
+      const portPropertyKey = `${extensionSectionId}.port`
       const originalConfig = {
         name: typeof pkg.name === 'string' ? pkg.name : TEMPLATE_VSCE_SERVER_PACKAGE_NAME,
         displayName: typeof pkg.displayName === 'string' ? pkg.displayName : undefined,
-        serverPort:
-          pkg.contributes?.configuration?.properties?.['nodeServerExtension.port']?.default,
+        serverPort: pkg.contributes?.configuration?.properties?.[portPropertyKey]?.default,
       }
 
       pkg.name = ctx.answers.packageName
@@ -127,7 +148,7 @@ export const PROJECT_TEMPLATES: ProjectTemplate[] = [
       }
       if (ctx.answers.serverPort) {
         const properties = pkg.contributes?.configuration?.properties
-        const portConfig = properties?.['nodeServerExtension.port']
+        const portConfig = properties?.[portPropertyKey]
         if (portConfig) {
           portConfig.default = Number(ctx.answers.serverPort)
         }
@@ -200,6 +221,20 @@ export const PROJECT_TEMPLATES: ProjectTemplate[] = [
             return true
           } catch (error) {
             return error instanceof Error ? error.message : '端口格式无效。'
+          }
+        },
+      },
+      {
+        key: 'extensionSectionPrefix',
+        label:
+          '请输入扩展命令/配置段 ID 前缀（不含 Extension；将生成 前缀+Extension 并全局替换 nodeServerExtension，避免与同机其他模板插件冲突）',
+        required: true,
+        validate: (value) => {
+          try {
+            toValidExtensionSectionPrefix(value)
+            return true
+          } catch (error) {
+            return error instanceof Error ? error.message : '扩展段 ID 前缀无效。'
           }
         },
       },

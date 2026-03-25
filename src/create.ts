@@ -8,6 +8,7 @@ import {
   findTemplateById,
   PROJECT_TEMPLATES,
   toValidDisplayName,
+  toValidExtensionSectionPrefix,
   toValidPackageName,
   toValidProjectName,
   toValidServerPort,
@@ -95,6 +96,9 @@ export async function askTemplateQuestions(
     packageName: toValidPackageName(answers.packageName ?? ''),
     displayName: answers.displayName ? toValidDisplayName(answers.displayName) : undefined,
     serverPort: answers.serverPort ? toValidServerPort(answers.serverPort) : undefined,
+    extensionSectionPrefix: answers.extensionSectionPrefix
+      ? toValidExtensionSectionPrefix(answers.extensionSectionPrefix)
+      : undefined,
   }
 }
 
